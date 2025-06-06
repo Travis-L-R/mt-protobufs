@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package meshtastic;
 
+import "meshtastic/destinations.proto";
 import "meshtastic/device_ui.proto";
 
 option csharp_namespace = "Meshtastic.Protobufs";
@@ -1148,5 +1149,6 @@ message Config {
     SecurityConfig security = 8;
     SessionkeyConfig sessionkey = 9;
     DeviceUIConfig device_ui = 10;
+    DestinationsConfig destinations = 11;
   }
 }

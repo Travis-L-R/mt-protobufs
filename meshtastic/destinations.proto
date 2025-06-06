@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package meshtastic;
+
+option csharp_namespace = "Meshtastic.Protobufs";
+option go_package = "github.com/meshtastic/go/generated";
+option java_outer_classname = "DestinationsProtos";
+option java_package = "com.geeksville.mesh";
+option swift_prefix = "";
+
+message DestinationsConfig {
+    /*
+     * Optional default destination for most types of packets that would otherwise be sent to broadcast.
+     */
+    uint32 default_dest = 1;
+
+    /*
+     * Optional destination for nodeinfo messages. Defaults to default_dest (or if none, broadcast).
+     */
+    uint32 nodeinfo_dest = 2;
+
+    /*
+     * Optional destination for telemetry messages. Defaults to default_dest (or if none, broadcast).
+     */
+    uint32 telemetry_dest = 3;
+
+    /*
+     * Optional destination for position messages. Defaults to default_dest (or if none, broadcast).
+     */
+    uint32 position_dest = 4;
+}
