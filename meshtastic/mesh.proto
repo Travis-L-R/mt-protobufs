@@ -1039,6 +1039,11 @@ message Data {
    * Bitfield for extra flags. First use is to indicate that user approves the packet being uploaded to MQTT.
    */
   optional uint32 bitfield = 9;
+
+  /*
+   * Path data for packets sent using leap destinations.
+   */
+  optional LeapData leap_data = 10;
 }
 
 /*
@@ -2234,4 +2239,32 @@ message ChunkedPayloadResponse {
      */
     resend_chunks resend_chunks = 4;
   }
+}
+
+message LeapData {
+  /*
+   * The node number of the true "to" address that we are trying to send a packet to via leaps.
+   */
+  uint32 final_dest = 1;
+
+  /*
+   * The node number of each traversed leap mask is bitwise-OR'd together, and then used as mask to prevent loops.
+   */
+  uint32 leap_mask = 2;
+
+  /*
+   * The node number of the first leap node that has been traversed on the way to final_dest (if any). (So that a return path can be identified.)
+   */
+  optional uint32 first_leap = 3;
+
+  /*
+   * The node number of the last leap node (if any is known) that we might be trying to get to before final_dest. 
+   * Can be set by the "from" node or another leap node along the way. 
+   */
+  optional uint32 last_leap = 4;
+
+  /*
+   * Stores a count of how many hops occured in earlier legs of the leap path. 
+   */
+  optional uint32 prior_hops = 5;
 }

@@ -25,6 +25,19 @@ message DestinationsConfig {
          * Manual next hop specification for messages to this node (zero represents default)
          */
         optional uint32 next_hop = 3;
+
+        /*
+         * Node number of first desired leap node toward this destination (optional).
+         * At least one of first_leap or last_leap should be set to a valid node number
+         * if leaping is desired.
+        */
+        optional uint32 first_leap = 4;
+
+        /*
+         * Node number of last desired leap node toward this destination (optional).
+         * This should ordinarily be the closest reliable node to the destination.
+        */
+        optional uint32 last_leap = 5;
     }
 
 
@@ -52,4 +65,16 @@ message DestinationsConfig {
      * Configuration slots for custom handling of specified destinations
      */
     repeated MeshDestination destinations = 5;
+
+    /*
+     * Whether to use leaping or not.
+     */
+    bool leaps_enabled = 6;
+
+    /*
+     * Can be used to specify a dedicated channel to send leap messages on. Intended for backwards compatbility with leap-naive nodes.
+     * The leap channel should accordingly not use the default AQ== PSK.
+     */
+    uint32 leap_channel = 7;
+
 }

@@ -87,3 +87,5 @@
 *ChunkedPayload.chunk_count int_size:16
 *ChunkedPayload.chunk_index int_size:16
 *ChunkedPayload.payload_chunk max_size:228
+
+*LeapData.total_hops int_size:8
