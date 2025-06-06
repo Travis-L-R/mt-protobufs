@@ -9,6 +9,25 @@ option java_package = "com.geeksville.mesh";
 option swift_prefix = "";
 
 message DestinationsConfig {
+
+    message MeshDestination {
+        /*
+         * The node number for this destination
+         */
+        uint32 num = 1;
+
+        /*
+         * Alternative hop limit to use for this destination (zero represents default)
+         */
+        optional uint32 hop_limit = 2;
+
+        /*
+         * Manual next hop specification for messages to this node (zero represents default)
+         */
+        optional uint32 next_hop = 3;
+    }
+
+
     /*
      * Optional default destination for most types of packets that would otherwise be sent to broadcast.
      */

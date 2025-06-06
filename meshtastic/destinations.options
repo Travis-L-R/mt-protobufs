@@ -1,0 +1,4 @@
+*MeshDestination.hop_limit int_size:8
+*MeshDestination.next_hop int_size:8
+
+*DestinationsConfig.destinations max_count:8
