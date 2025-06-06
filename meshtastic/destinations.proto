@@ -47,4 +47,9 @@ message DestinationsConfig {
      * Optional destination for position messages. Defaults to default_dest (or if none, broadcast).
      */
     uint32 position_dest = 4;
+
+    /*
+     * Configuration slots for custom handling of specified destinations
+     */
+    repeated MeshDestination destinations = 5;
 }
