@@ -3,6 +3,7 @@ syntax = "proto3";
 package meshtastic;
 
 import "meshtastic/config.proto";
+import "meshtastic/lora_config.proto";
 import "meshtastic/mesh.proto";
 
 option csharp_namespace = "Meshtastic.Protobufs";

@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package meshtastic;
 
+import "meshtastic/lora_config.proto";
+
 option csharp_namespace = "Meshtastic.Protobufs";
 option go_package = "github.com/meshtastic/go/generated";
 option java_outer_classname = "DestinationsProtos";
@@ -30,14 +32,19 @@ message DestinationsConfig {
          * Node number of first desired leap node toward this destination (optional).
          * At least one of first_leap or last_leap should be set to a valid node number
          * if leaping is desired.
-        */
+         */
         optional uint32 first_leap = 4;
 
         /*
          * Node number of last desired leap node toward this destination (optional).
          * This should ordinarily be the closest reliable node to the destination.
-        */
+         */
         optional uint32 last_leap = 5;
+
+        /*
+         * LoRa modem settings to switch out temporarily for messages sent to this destination.
+         */
+        optional LoRaConfigLite lora_switch = 6;
     }
 
 
@@ -76,5 +83,10 @@ message DestinationsConfig {
      * The leap channel should accordingly not use the default AQ== PSK.
      */
     uint32 leap_channel = 7;
+
+    /*
+     * Whether to allow LoRa channel switching for destinations
+     */
+    bool lora_switch_enabled = 8;
 
 }

@@ -4,6 +4,7 @@ package meshtastic;
 
 import "meshtastic/config.proto";
 import "meshtastic/destinations.proto";
+import "meshtastic/lora_config.proto";
 import "meshtastic/module_config.proto";
 
 option csharp_namespace = "Meshtastic.Protobufs";

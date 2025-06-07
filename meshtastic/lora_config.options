@@ -1,0 +1,9 @@
+# Max of three ignored nodes for our testing
+*LoRaConfig.ignore_incoming max_count:3
+
+*LoRaConfig.tx_power int_size:8
+*LoRaConfig.bandwidth int_size:16
+*LoRaConfig.coding_rate int_size:8
+*LoRaConfig.channel_num int_size:16
+
+*LoRaConfigLite.channel_num int_size:16
