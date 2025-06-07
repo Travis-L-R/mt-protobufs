@@ -67,12 +67,12 @@ message MapReport {
   /*
    * The region code for the radio (US, CN, EU433, etc...)
    */
-  Config.LoRaConfig.RegionCode region = 6;
+  LoRaConfig.RegionCode region = 6;
 
   /*
    * Modem preset used by the radio (LongFast, MediumSlow, etc...)
    */
-  Config.LoRaConfig.ModemPreset modem_preset = 7;
+  LoRaConfig.ModemPreset modem_preset = 7;
 
   /*
    * Whether the node has a channel with default PSK and name (LongFast, MediumSlow, etc...)
