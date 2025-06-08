@@ -45,6 +45,7 @@ message DestinationsConfig {
          * LoRa modem settings to switch out temporarily for messages sent to this destination.
          */
         optional LoRaConfigLite lora_switch = 6;
+
     }
 
 
@@ -88,5 +89,17 @@ message DestinationsConfig {
      * Whether to allow LoRa channel switching for destinations
      */
     bool lora_switch_enabled = 8;
+
+    /*
+     * Whether to restrict LoRa channel switching to packets from us (not both acting as intermediate leap node and switching) 
+     * so that leaps can be enabled for others without also switch radio settings for others.
+     */
+    bool only_lora_switch_from_us = 9;
+
+    /*
+     * Whether to restrict leaping with LoRa radio setting changes to messages.
+     * Only works if only_lora_switch_from_us is not set and the message is decodable.
+     */
+    bool only_leap_switch_messages = 10;
 
 }
