@@ -122,6 +122,11 @@ option swift_prefix = "";
        * Philippines 915mhz
        */
       PH_915 = 21;
+
+      /*
+       * Australia / New Zealand 433MHz
+       */
+      ANZ_433 = 22;
     }
 
     /*
