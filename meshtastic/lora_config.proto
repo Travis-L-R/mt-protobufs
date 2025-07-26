@@ -132,11 +132,21 @@ option swift_prefix = "";
        * Kazakhstan 433MHz
        */
       KZ_433 = 23;
-      
+
       /*
        * Kazakhstan 863MHz
        */
       KZ_863 = 24;
+
+      /*
+       * Nepal 865MHz
+       */
+      NP_865 = 25;
+
+      /*
+       * Brazil 902MHz
+       */
+      BR_902 = 26;
     }
 
     /*
