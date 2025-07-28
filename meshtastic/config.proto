@@ -108,6 +108,12 @@ message Config {
        *    consuming hops.
        */
       ROUTER_LATE = 11;
+      
+      /*
+       * Description: Device that will wait until other nodes should have rebroadcast, and only rebroadcast if no one else has and channel utilization is low)
+       * Technical Details: Intended for use when a node wouldn't normally be able to contribute helpfully to the mesh, but you still want it to be able to.
+       */
+      CLIENT_LATE = 12;
     }
 
     /*
