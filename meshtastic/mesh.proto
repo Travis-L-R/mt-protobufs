@@ -779,11 +779,16 @@ enum HardwareModel {
    * https://heltec.org/project/meshsolar/
    */
   HELTEC_MESH_SOLAR = 108;
-  
+
   /*
    * Lilygo T-Echo Lite
    */
   T_ECHO_LITE = 109;
+
+  /*
+   * New Heltec LoRA32 with ESP32-S3 CPU
+   */
+  HELTEC_V4 = 110;
 
   /*
    * ------------------------------------------------------------------------------------------------------------------------------------------
