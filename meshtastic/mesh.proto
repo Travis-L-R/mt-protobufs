@@ -13,7 +13,7 @@ import "meshtastic/xmodem.proto";
 option csharp_namespace = "Meshtastic.Protobufs";
 option go_package = "github.com/meshtastic/go/generated";
 option java_outer_classname = "MeshProtos";
-option java_package = "com.geeksville.mesh";
+option java_package = "org.meshtastic.proto";
 option swift_prefix = "";
 
 /*
@@ -740,9 +740,9 @@ enum HardwareModel {
   SEEED_WIO_TRACKER_L1_EINK = 100;
 
   /*
-   * Reserved ID for future and past use
+   * Muzi Works R1 Neo
    */
-  QWANTZ_TINY_ARMS = 101;
+  MUZI_R1_NEO = 101;
 
   /*
    * Lilygo T-Deck Pro
@@ -755,9 +755,9 @@ enum HardwareModel {
   T_LORA_PAGER = 103;
 
   /*
-   * GAT562 Mesh Trial Tracker
+   * M5Stack Reserved
    */
-  GAT562_MESH_TRIAL_TRACKER = 104;
+  M5STACK_RESERVED = 104; // 0x68
 
   /*
    * RAKwireless WisMesh Tag
@@ -773,6 +773,47 @@ enum HardwareModel {
    * Elecrow ThinkNode M5 https://www.elecrow.com/wiki/ThinkNode_M5_Meshtastic_LoRa_Signal_Transceiver_ESP32-S3.html
    */
   THINKNODE_M5 = 107;
+
+  /*
+   * MeshSolar is an integrated power management and communication solution designed for outdoor low-power devices.
+   * https://heltec.org/project/meshsolar/
+   */
+  HELTEC_MESH_SOLAR = 108;
+
+  /*
+   * Lilygo T-Echo Lite
+   */
+  T_ECHO_LITE = 109;
+
+  /*
+   * New Heltec LoRA32 with ESP32-S3 CPU
+   */
+  HELTEC_V4 = 110;
+
+  /*
+   * M5Stack C6L
+   */
+  M5STACK_C6L = 111;
+
+  /*
+   * M5Stack Cardputer Adv
+   */
+  M5STACK_CARDPUTER_ADV = 112;
+
+  /*
+   * ESP32S3 main controller with GPS and TFT screen.
+   */
+  HELTEC_WIRELESS_TRACKER_V2 = 113;
+
+  /*
+   * LilyGo T-Watch Ultra
+   */
+  T_WATCH_ULTRA = 114;
+
+  /*
+   * Elecrow ThinkNode M3
+   */
+  THINKNODE_M3 = 115;
 
   /*
    * ------------------------------------------------------------------------------------------------------------------------------------------
@@ -1272,6 +1313,51 @@ message MeshPacket {
   }
 
   /*
+   * Enum to identify which transport mechanism this packet arrived over
+   */
+  enum TransportMechanism {
+    /*
+     * The default case is that the node generated a packet itself
+     */
+    TRANSPORT_INTERNAL = 0;
+
+    /*
+     * Arrived via the primary LoRa radio
+     */
+    TRANSPORT_LORA = 1;
+
+    /*
+     * Arrived via a secondary LoRa radio
+     */
+    TRANSPORT_LORA_ALT1 = 2;
+
+    /*
+     * Arrived via a tertiary LoRa radio
+     */
+    TRANSPORT_LORA_ALT2 = 3;
+
+    /*
+     * Arrived via a quaternary LoRa radio
+     */
+    TRANSPORT_LORA_ALT3 = 4;
+
+    /*
+     * Arrived via an MQTT connection
+     */
+    TRANSPORT_MQTT = 5;
+
+    /*
+     * Arrived via Multicast UDP
+     */
+    TRANSPORT_MULTICAST_UDP = 6;
+
+    /*
+     * Arrived via API connection
+     */
+    TRANSPORT_API = 7;
+  }
+
+  /*
    * The sending node number.
    * Note: Our crypto implementation uses this field as well.
    * See [crypto](/docs/overview/encryption) for details.
@@ -1418,6 +1504,11 @@ message MeshPacket {
    * Set by the firmware internally, clients are not supposed to set this.
    */
   uint32 tx_after = 20;
+
+  /*
+   * Indicates which transport mechanism this packet arrived over
+   */
+  TransportMechanism transport_mechanism = 21;
 }
 
 /*
@@ -1711,6 +1802,12 @@ message MyNodeInfo {
    * The indicator for whether this device is running event firmware and which
    */
   FirmwareEdition firmware_edition = 14;
+
+  /*
+   * The number of nodes in the nodedb.
+   * This is used by the phone to know how many NodeInfo packets to expect on want_config
+   */
+  uint32 nodedb_count = 15;
 }
 
 /*
@@ -2244,7 +2341,12 @@ enum ExcludedModules {
  * A heartbeat message is sent to the node from the client to keep the connection alive.
  * This is currently only needed to keep serial connections alive, but can be used by any PhoneAPI.
  */
-message Heartbeat {}
+message Heartbeat {
+  /*
+   * The nonce of the heartbeat message
+   */
+  uint32 nonce = 1;
+}
 
 /*
  * RemoteHardwarePins associated with a node
