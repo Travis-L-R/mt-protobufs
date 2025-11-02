@@ -57,5 +57,5 @@ message DestinationsConfig {
      * Option to select alternative channel to send nodeinfo broadcasts out on.
      * E.g. for if your primary channel is private but you still want your info to appear on a default (but secondary) channel
      */
-    uint32 nodeinfo_channel = 6;
+    uint32 nodeinfo_channel = 8;
 }
