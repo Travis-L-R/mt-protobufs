@@ -5,7 +5,7 @@ package meshtastic;
 option csharp_namespace = "Meshtastic.Protobufs";
 option go_package = "github.com/meshtastic/go/generated";
 option java_outer_classname = "Portnums";
-option java_package = "com.geeksville.mesh";
+option java_package = "org.meshtastic.proto";
 option swift_prefix = "";
 
 /*
@@ -216,6 +216,13 @@ enum PortNum {
    * ENCODING: Fragmented RNS Packet. Handled by Meshtastic RNS interface
    */
   RETICULUM_TUNNEL_APP = 76;
+
+  /*
+   * App for transporting Cayenne Low Power Payload, popular for LoRaWAN sensor nodes. Offers ability to send
+   * arbitrary telemetry over meshtastic that is not covered by telemetry.proto
+   * ENCODING: CayenneLLP
+   */
+  CAYENNE_APP = 77;
 
   /*
    * Private applications should use portnums >= 256.
