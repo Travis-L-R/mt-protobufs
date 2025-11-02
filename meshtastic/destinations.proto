@@ -102,4 +102,9 @@ message DestinationsConfig {
      */
     bool only_leap_switch_messages = 10;
 
+    /*
+     * Option to select alternative channel to send nodeinfo broadcasts out on.
+     * E.g. for if your primary channel is private but you still want your info to appear on a default (but secondary) channel
+     */
+    uint32 nodeinfo_channel = 11;
 }
