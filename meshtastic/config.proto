@@ -8,7 +8,7 @@ import "meshtastic/device_ui.proto";
 option csharp_namespace = "Meshtastic.Protobufs";
 option go_package = "github.com/meshtastic/go/generated";
 option java_outer_classname = "ConfigProtos";
-option java_package = "com.geeksville.mesh";
+option java_package = "org.meshtastic.proto";
 option swift_prefix = "";
 
 message Config {
@@ -49,8 +49,9 @@ message Config {
        * Description: Infrastructure node for extending network coverage by relaying messages with minimal overhead. Not visible in Nodes list.
        * Technical Details: Mesh packets will simply be rebroadcasted over this node. Nodes configured with this role will not originate NodeInfo, Position, Telemetry
        *   or any other packet type. They will simply rebroadcast any mesh packets on the same frequency, channel num, spread factor, and coding rate.
+       * Deprecated in v2.7.11 because it creates "holes" in the mesh rebroadcast chain.
        */
-      REPEATER = 4;
+      REPEATER = 4 [deprecated = true];
 
       /*
        * Description: Broadcasts GPS position packets as priority.
@@ -109,6 +110,14 @@ message Config {
        *    consuming hops.
        */
       ROUTER_LATE = 11;
+
+      /*
+       * Description: Treats packets from or to favorited nodes as ROUTER, and all other packets as CLIENT.
+       * Technical Details: Used for stronger attic/roof nodes to distribute messages more widely
+       *    from weaker, indoor, or less-well-positioned nodes. Recommended for users with multiple nodes
+       *    where one CLIENT_BASE acts as a more powerful base station, such as an attic/roof node.
+       */
+      CLIENT_BASE = 12;
     }
 
     /*
@@ -179,6 +188,13 @@ message Config {
        * Buzzer is enabled only for non-notification tones such as button presses, startup, shutdown, but not for alerts.
        */
       SYSTEM_ONLY = 3;
+
+      /*
+       * Direct Message notifications only.
+       * Buzzer is enabled only for direct messages and alerts, but not for button presses.
+       * External notification config determines the specifics of the notification behavior.
+       */
+      DIRECT_MSG_ONLY = 4;
     }
 
     /*
@@ -190,7 +206,7 @@ message Config {
      * Disabling this will disable the SerialConsole by not initilizing the StreamAPI
      * Moved to SecurityConfig
      */
-    bool serial_enabled = 2[deprecated = true];
+    bool serial_enabled = 2 [deprecated = true];
 
     /*
      * For boards without a hard wired button, this is the pin number that will be used
@@ -225,7 +241,7 @@ message Config {
      * Clients should then limit available configuration and administrative options inside the user interface
      * Moved to SecurityConfig
      */
-    bool is_managed = 9[deprecated = true];
+    bool is_managed = 9 [deprecated = true];
 
     /*
      * Disables the triple-press of user button to enable or disable GPS
@@ -471,7 +487,7 @@ message Config {
      * If non-zero, we want powermon log outputs.  With the particular (bitfield) sources enabled.
      * Note: we picked an ID of 32 so that lower more efficient IDs can be used for more frequently used options.
      */
-     uint64 powermon_enables = 32;
+    uint64 powermon_enables = 32;
   }
 
   /*
@@ -584,45 +600,10 @@ message Config {
    */
   message DisplayConfig {
     /*
-     * How the GPS coordinates are displayed on the OLED screen.
+     * Deprecated in 2.7.4: Unused
      */
-    enum GpsCoordinateFormat {
-      /*
-       * GPS coordinates are displayed in the normal decimal degrees format:
-       * DD.DDDDDD DDD.DDDDDD
-       */
-      DEC = 0;
-
-      /*
-       * GPS coordinates are displayed in the degrees minutes seconds format:
-       * DD°MM'SS"C DDD°MM'SS"C, where C is the compass point representing the locations quadrant
-       */
-      DMS = 1;
-
-      /*
-       * Universal Transverse Mercator format:
-       * ZZB EEEEEE NNNNNNN, where Z is zone, B is band, E is easting, N is northing
-       */
-      UTM = 2;
-
-      /*
-       * Military Grid Reference System format:
-       * ZZB CD EEEEE NNNNN, where Z is zone, B is band, C is the east 100k square, D is the north 100k square,
-       * E is easting, N is northing
-       */
-      MGRS = 3;
-
-      /*
-       * Open Location Code (aka Plus Codes).
-       */
-      OLC = 4;
-
-      /*
-       * Ordnance Survey Grid Reference (the National Grid System of the UK).
-       * Format: AB EEEEE NNNNN, where A is the east 100k square, B is the north 100k square,
-       * E is the easting, N is the northing
-       */
-      OSGR = 5;
+    enum DeprecatedGpsCoordinateFormat {
+      UNUSED = 0;
     }
 
     /*
@@ -660,14 +641,14 @@ message Config {
       OLED_SH1106 = 2;
 
       /*
-       * Can not be auto detected but set by proto. Used for 128x128 screens
+       * Can not be auto detected but set by proto. Used for 128x64 screens
        */
       OLED_SH1107 = 3;
 
       /*
-       * Can not be auto detected but set by proto. Used for 128x64 screens
+       * Can not be auto detected but set by proto. Used for 128x128 screens
        */
-      OLED_SH1107_128_64 = 4;
+      OLED_SH1107_128_128 = 4;
     }
 
     /*
@@ -677,9 +658,10 @@ message Config {
     uint32 screen_on_secs = 1;
 
     /*
+     * Deprecated in 2.7.4: Unused
      * How the GPS coordinates are formatted on the OLED screen.
      */
-    GpsCoordinateFormat gps_format = 2;
+    DeprecatedGpsCoordinateFormat gps_format = 2 [deprecated = true];
 
     /*
      * Automatically toggles to the next page on the screen like a carousel, based the specified interval in seconds.
@@ -691,7 +673,7 @@ message Config {
      * If this is set, the displayed compass will always point north. if unset, the old behaviour
      * (top of display is heading direction) is used.
      */
-    bool compass_north_top = 4;
+    bool compass_north_top = 4 [deprecated = true];
 
     /*
      * Flip screen vertically, for cases that mount the screen upside down
@@ -784,7 +766,7 @@ message Config {
        * Rotate the compass by 270 degrees and invert.
        */
       DEGREES_270_INVERTED = 7;
-      }
+    }
 
     /*
      * Indicates how to rotate or invert the compass output to accurate display on the display.
@@ -796,6 +778,12 @@ message Config {
      * If true, the device will display the time in 12-hour format on screen.
      */
     bool use_12h_clock = 12;
+
+    /*
+     * If false (default), the device will use short names for various display screens.
+     * If true, node names will show in long format
+     */
+    bool use_long_node_name = 13;
   }
 
   /*
@@ -912,11 +900,31 @@ message Config {
        * Philippines 915mhz
        */
       PH_915 = 21;
+
       /*
        * Australia / New Zealand 433MHz
        */
       ANZ_433 = 22;
 
+      /*
+       * Kazakhstan 433MHz
+       */
+      KZ_433 = 23;
+
+      /*
+       * Kazakhstan 863MHz
+       */
+      KZ_863 = 24;
+
+      /*
+       * Nepal 865MHz
+       */
+      NP_865 = 25;
+
+      /*
+       * Brazil 902MHz
+       */
+      BR_902 = 26;
     }
 
     /*
@@ -1130,17 +1138,16 @@ message Config {
   }
 
   message SecurityConfig {
-
-  /*
-   * The public key of the user's device.
-   * Sent out to other nodes on the mesh to allow them to compute a shared secret key.
-   */
+    /*
+     * The public key of the user's device.
+     * Sent out to other nodes on the mesh to allow them to compute a shared secret key.
+     */
     bytes public_key = 1;
 
-  /*
-   * The private key of the device.
-   * Used to create a shared key with a remote device.
-   */
+    /*
+     * The private key of the device.
+     * Used to create a shared key with a remote device.
+     */
     bytes private_key = 2;
 
     /*
