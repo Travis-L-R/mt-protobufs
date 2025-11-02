@@ -354,6 +354,17 @@ message Config {
       NOT_PRESENT = 2;
     }
 
+    message MaskedLocation {
+      sfixed32 latitude_i = 1;
+      sfixed32 longitude_i = 2;
+      uint32 precision_bits = 3;
+      bool enabled = 4;
+      /*
+       * Option to apply the mask only when using default channel/PSKs/or uploading our packets to default MQTT server.
+       */
+      bool mask_defaults_only = 5;
+    }
+
     /*
      * We should send our position this often (but only if it has changed significantly)
      * Defaults to 15 minutes
@@ -424,6 +435,8 @@ message Config {
      * Set where GPS is enabled, disabled, or not present
      */
     GpsMode gps_mode = 13;
+
+    repeated MaskedLocation masked_locations = 14;
   }
 
   /*
