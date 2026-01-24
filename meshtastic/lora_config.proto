@@ -161,8 +161,9 @@ option swift_prefix = "";
 
       /*
        * Long Range - Slow
+       * Deprecated in 2.7: Unpopular slow preset.
        */
-      LONG_SLOW = 1;
+      LONG_SLOW = 1 [deprecated = true];
 
       /*
        * Very Long Range - Slow
@@ -203,9 +204,10 @@ option swift_prefix = "";
       SHORT_TURBO = 8;
 
       /*
-       * Used in LoRaConfigLite to signify modem settings that don't use a preset
+       * Long Range - Turbo
+       * This preset performs similarly to LongFast, but with 500Khz bandwidth.
        */
-      NO_PRESET = 255;
+      LONG_TURBO = 9;
     }
 
     /*
@@ -283,8 +285,6 @@ option swift_prefix = "";
      * algorithm to derive the channel number")
      * If using the hash algorithm the channel number will be: hash(channel_name) %
      * NUM_CHANNELS (Where num channels depends on the regulatory region).
-     *
-     * 65535 is treated as "unset" for some purposes
      */
     uint32 channel_num = 11;
 
@@ -331,6 +331,7 @@ option swift_prefix = "";
      */
     bool config_ok_to_mqtt = 105;
   }
+
 
   /*
    * Simplified Lora Config for switching between presets
