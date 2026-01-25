@@ -208,6 +208,12 @@ option swift_prefix = "";
        * This preset performs similarly to LongFast, but with 500Khz bandwidth.
        */
       LONG_TURBO = 9;
+
+
+      /* 
+       * Signifier for the absence of a preset
+       */
+      NO_PRESET = 255;
     }
 
     /*
