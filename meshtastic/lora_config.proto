@@ -1,4 +1,4 @@
-  syntax = "proto3";
+syntax = "proto3";
 
 package meshtastic;
 
@@ -7,7 +7,7 @@ option go_package = "github.com/meshtastic/go/generated";
 option java_outer_classname = "ConfigProtos";
 option java_package = "com.geeksville.mesh";
 option swift_prefix = "";
-  
+
   /*
    * Lora Config
    */
@@ -147,6 +147,32 @@ option swift_prefix = "";
        * Brazil 902MHz
        */
       BR_902 = 26;
+
+      /*
+       * ITU Region 1 Amateur Radio 2m band (144-146 MHz)
+       */
+      ITU1_2M = 27;
+
+      /*
+       * ITU Region 2 / 3 Amateur Radio 2m band (144-148 MHz)
+       */
+      ITU23_2M = 28;
+
+      /*
+       * EU 866MHz band (Band no. 47b of 2006/771/EC and subsequent amendments) for Non-specific short-range devices (SRD)
+       */
+      EU_866 = 29;
+
+      /*
+       * EU 874MHz and 917MHz bands (Band no. 1 and 4 of 2022/172/EC and subsequent amendments) for Non-specific short-range devices (SRD)
+       */
+      EU_874 = 30;
+      EU_917 = 31;
+
+      /*
+       * EU 868MHz band, with narrow presets
+       */
+      EU_N_868 = 32;
     }
 
     /*
@@ -209,11 +235,57 @@ option swift_prefix = "";
        */
       LONG_TURBO = 9;
 
+      /*
+       * Lite Fast
+       * Medium range preset optimized for EU 866MHz SRD band with 125kHz bandwidth.
+       * Comparable link budget to MEDIUM_FAST but compliant with Band no. 47b of 2006/771/EC.
+       */
+      LITE_FAST = 10;
+
+      /*
+       * Lite Slow
+       * Medium-to-moderate range preset optimized for EU 866MHz SRD band with 125kHz bandwidth.
+       * Comparable link budget to LONG_FAST but compliant with Band no. 47b of 2006/771/EC.
+       */
+      LITE_SLOW = 11;
+
+      /*
+       * Narrow Fast
+       * Medium-to-moderate range preset optimized for EU 868MHz band with 62.5kHz bandwidth.
+       * Comparable link budget to SHORT_SLOW, but with half the data rate.
+       * Intended to avoid interference with other devices.
+       */
+      NARROW_FAST = 12;
+
+      /*
+       * Narrow Slow
+       * Moderate range preset optimized for EU 868MHz band with 62.5kHz bandwidth.
+       * Comparable link budget and data rate to LONG_FAST.
+       */
+      NARROW_SLOW = 13;
 
       /* 
        * Signifier for the absence of a preset
        */
       NO_PRESET = 255;
+
+    }
+
+    enum FEM_LNA_Mode {
+      /*
+       * FEM_LNA is present but disabled
+       */
+      DISABLED = 0;
+
+      /*
+       * FEM_LNA is present and enabled
+       */
+      ENABLED = 1;
+
+      /*
+       * FEM_LNA is not present on the device
+       */
+      NOT_PRESENT = 2;
     }
 
     /*
@@ -336,9 +408,18 @@ option swift_prefix = "";
      * Sets the ok_to_mqtt bit on outgoing packets
      */
     bool config_ok_to_mqtt = 105;
+
+    /*
+     * Set where LORA FEM is enabled, disabled, or not present
+     */
+    FEM_LNA_Mode fem_lna_mode = 106;
+
+    /*
+     * Don't use radiolib to initialize the radio, instead listen for a serialHal connection
+     */
+    bool serial_hal_only = 107;
   }
-
-
+  
   /*
    * Simplified Lora Config for switching between presets
    */
@@ -354,3 +435,4 @@ option swift_prefix = "";
      */
     uint32 channel_num = 2;
   }
+
