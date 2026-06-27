@@ -468,10 +468,6 @@ option swift_prefix = "";
      * Don't use radiolib to initialize the radio, instead listen for a serialHal connection
      */
     bool serial_hal_only = 107;
-  }
-
-
-
 
     }
 
