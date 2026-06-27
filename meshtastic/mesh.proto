@@ -2757,14 +2757,14 @@ message LoRaPresetGroup {
   /*
    * The modem presets that are legal for every region referencing this group.
    */
-  repeated Config.LoRaConfig.ModemPreset presets = 1;
+  repeated LoRaConfig.ModemPreset presets = 1;
 
   /*
    * The firmware's default modem preset for regions in this group.
    * Always one of `presets`. Clients should select this when switching to one
    * of these regions, or when the current preset is not legal in the new region.
    */
-  Config.LoRaConfig.ModemPreset default_preset = 2;
+  LoRaConfig.ModemPreset default_preset = 2;
 
   /*
    * True if regions referencing this group are for licensed operators only
@@ -2780,7 +2780,7 @@ message LoRaRegionPresets {
   /*
    * The LoRa region this entry describes.
    */
-  Config.LoRaConfig.RegionCode region = 1;
+  LoRaConfig.RegionCode region = 1;
 
   /*
    * Index into LoRaRegionPresetMap.groups for the preset list that is legal
