@@ -5,6 +5,7 @@ package meshtastic;
 import "meshtastic/atak.proto";
 import "meshtastic/channel.proto";
 import "meshtastic/config.proto";
+import "meshtastic/lora_config.proto";
 
 option csharp_namespace = "Meshtastic.Protobufs";
 option go_package = "github.com/meshtastic/go/generated";
@@ -909,13 +910,13 @@ message ModuleConfig {
     /*
      * Region to use when sending beacons on broadcast_on_preset.
      */
-    Config.LoRaConfig.RegionCode broadcast_on_region = 9;
+    LoRaConfig.RegionCode broadcast_on_region = 9;
 
     /*
      * Modem preset to use when sending beacons.
      * If different from current config, the radio is temporarily switched for TX.
      */
-    optional Config.LoRaConfig.ModemPreset broadcast_on_preset = 10;
+    optional LoRaConfig.ModemPreset broadcast_on_preset = 10;
 
     /*
      * How often to broadcast, in seconds. Min 3600 (1 h), default 3600.
@@ -931,12 +932,12 @@ message ModuleConfig {
        * Modem preset to use for this target.
        * Falls back to the running config preset if unset.
        */
-      optional Config.LoRaConfig.ModemPreset preset = 1;
+      optional LoRaConfig.ModemPreset preset = 1;
 
       /*
        * Region to use for this target. UNSET means use the running config region.
        */
-      Config.LoRaConfig.RegionCode region = 2;
+      LoRaConfig.RegionCode region = 2;
 
       // Tag 3 was an embedded ChannelSettings; replaced by channel_index (tag 4) to keep
       // ModuleConfig within the BLE FromRadio size budget. Branch unreleased, so tag 3 is a gap.
