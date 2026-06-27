@@ -154,9 +154,9 @@ option swift_prefix = "";
       ITU1_2M = 27;
 
       /*
-       * ITU Region 2 / 3 Amateur Radio 2m band (144-148 MHz)
+       * ITU Region 2 Amateur Radio 2m band (144-148 MHz)
        */
-      ITU23_2M = 28;
+      ITU2_2M = 28;
 
       /*
        * EU 866MHz band (Band no. 47b of 2006/771/EC and subsequent amendments) for Non-specific short-range devices (SRD)
@@ -173,6 +173,36 @@ option swift_prefix = "";
        * EU 868MHz band, with narrow presets
        */
       EU_N_868 = 32;
+
+      /*
+       * ITU Region 3 Amateur Radio 2m band (144-148 MHz)
+       */
+      ITU3_2M = 33;
+
+      /*
+       * ITU Region 1 Amateur Radio 70cm band (430-440 MHz)
+       */
+      ITU1_70CM = 34;
+
+      /*
+       * ITU Region 2 Amateur Radio 70cm band (420-450 MHz)
+       * Note: Some countries do not allocate 420-430 MHz or 440-450 MHz.
+       * Check local law!
+       */
+      ITU2_70CM = 35;
+
+      /*
+       * ITU Region 3 Amateur Radio 70cm band (430-450 MHz)
+       * Note: Some countries do not allocate 440-450 MHz. Check local law!
+       */
+      ITU3_70CM = 36;
+
+      /*
+       * ITU Region 2 Amateur Radio 1.25m '125cm' band (220-225 MHz)
+       * Note: Some countries do not allocate 220-222 MHz (Ex: USA/Canada).
+       * Check local law!
+       */
+      ITU2_125CM = 37;
     }
 
     /*
@@ -264,10 +294,184 @@ option swift_prefix = "";
        */
       NARROW_SLOW = 13;
 
+      /*
+       * Tiny Fast
+       * Preset optimized for compliance with Amateur Radio restrictions with 20kHz bandwidth.
+       * Many regions limit data transmission bandwidth in lower amateur bands (2 Meter).
+       * Note: TCXO with tight tolerances (±5 ppm or better) is *absolutely required* at these narrow bandwidths.
+       * Only compatible with SX127x and SX126x chipsets.
+       * Comparable link budget and data rate to LONG_FAST.
+       */
+      TINY_FAST = 14;
+
+      /*
+       * Tiny Slow
+       * Preset optimized for compliance with Amateur Radio restrictions with 20kHz bandwidth.
+       * Many regions limit data transmission bandwidth in lower amateur bands (2 Meter).
+       * Note: TCXO with tight tolerances (±5 ppm or better) is *absolutely required* at these narrow bandwidths.
+       * Only compatible with SX127x and SX126x chipsets.
+       * Comparable link budget and data rate to LONG_MODERATE.
+       */
+      TINY_SLOW = 15;
+
       /* 
        * Signifier for the absence of a preset
        */
       NO_PRESET = 255;
+
+    }
+
+    enum FEM_LNA_Mode {
+      /*
+       * FEM_LNA is present but disabled
+       */
+      DISABLED = 0;
+
+      /*
+       * FEM_LNA is present and enabled
+       */
+      ENABLED = 1;
+
+      /*
+       * FEM_LNA is not present on the device
+       */
+      NOT_PRESENT = 2;
+    }
+
+    /*
+     * When enabled, the `modem_preset` fields will be adhered to, else the `bandwidth`/`spread_factor`/`coding_rate`
+     * will be taked from their respective manually defined fields
+     */
+    bool use_preset = 1;
+
+    /*
+     * Either modem_config or bandwidth/spreading/coding will be specified - NOT BOTH.
+     * As a heuristic: If bandwidth is specified, do not use modem_config.
+     * Because protobufs take ZERO space when the value is zero this works out nicely.
+     * This value is replaced by bandwidth/spread_factor/coding_rate.
+     * If you'd like to experiment with other options add them to MeshRadio.cpp in the device code.
+     */
+    ModemPreset modem_preset = 2;
+
+    /*
+     * Bandwidth in MHz
+     * Certain bandwidth numbers are 'special' and will be converted to the
+     * appropriate floating point value: 31 -> 31.25MHz
+     */
+    uint32 bandwidth = 3;
+
+    /*
+     * A number from 7 to 12.
+     * Indicates number of chirps per symbol as 1<<spread_factor.
+     */
+    uint32 spread_factor = 4;
+
+    /*
+     * The denominator of the coding rate.
+     * ie for 4/5, the value is 5. 4/8 the value is 8.
+     */
+    uint32 coding_rate = 5;
+
+    /*
+     * This parameter is for advanced users with advanced test equipment, we do not recommend most users use it.
+     * A frequency offset that is added to to the calculated band center frequency.
+     * Used to correct for crystal calibration errors.
+     */
+    float frequency_offset = 6;
+
+    /*
+     * The region code for the radio (US, CN, EU433, etc...)
+     */
+    RegionCode region = 7;
+
+    /*
+     * Maximum number of hops. This can't be greater than 7.
+     * Default of 3
+     * Attempting to set a value > 7 results in the default
+     */
+    uint32 hop_limit = 8;
+
+    /*
+     * Disable TX from the LoRa radio. Useful for hot-swapping antennas and other tests.
+     * Defaults to false
+     */
+    bool tx_enabled = 9;
+
+    /*
+     * If zero, then use default max legal continuous power (ie. something that won't
+     * burn out the radio hardware)
+     * In most cases you should use zero here.
+     * Units are in dBm.
+     */
+    int32 tx_power = 10;
+
+    /*
+     * This controls the actual hardware frequency the radio transmits on.
+     * Most users should never need to be exposed to this field/concept.
+     * A channel number between 1 and NUM_CHANNELS (whatever the max is in the current region).
+     * If ZERO then the rule is "use the old channel name hash based
+     * algorithm to derive the channel number")
+     * If using the hash algorithm the channel number will be: hash(channel_name) %
+     * NUM_CHANNELS (Where num channels depends on the regulatory region).
+     */
+    uint32 channel_num = 11;
+
+    /*
+     * If true, duty cycle limits will be exceeded and thus you're possibly not following
+     * the local regulations if you're not a HAM.
+     * Has no effect if the duty cycle of the used region is 100%.
+     */
+    bool override_duty_cycle = 12;
+
+    /*
+     * If true, sets RX boosted gain mode on SX126X based radios
+     */
+    bool sx126x_rx_boosted_gain = 13;
+
+    /*
+     * This parameter is for advanced users and licensed HAM radio operators.
+     * Ignore Channel Calculation and use this frequency instead. The frequency_offset
+     * will still be applied. This will allow you to use out-of-band frequencies.
+     * Please respect your local laws and regulations. If you are a HAM, make sure you
+     * enable HAM mode and turn off encryption.
+     */
+    float override_frequency = 14;
+
+    /*
+     * If true, disable the build-in PA FAN using pin define in RF95_FAN_EN.
+     */
+    bool pa_fan_disabled = 15;
+
+    /*
+     * For testing it is useful sometimes to force a node to never listen to
+     * particular other nodes (simulating radio out of range). All nodenums listed
+     * in ignore_incoming will have packets they send dropped on receive (by router.cpp)
+     */
+    repeated uint32 ignore_incoming = 103;
+
+    /*
+     * If true, the device will not process any packets received via LoRa that passed via MQTT anywhere on the path towards it.
+     */
+    bool ignore_mqtt = 104;
+
+    /*
+     * Sets the ok_to_mqtt bit on outgoing packets
+     */
+    bool config_ok_to_mqtt = 105;
+
+    /*
+     * Set where LORA FEM is enabled, disabled, or not present
+     */
+    FEM_LNA_Mode fem_lna_mode = 106;
+
+    /*
+     * Don't use radiolib to initialize the radio, instead listen for a serialHal connection
+     */
+    bool serial_hal_only = 107;
+  }
+
+
+
 
     }
 
