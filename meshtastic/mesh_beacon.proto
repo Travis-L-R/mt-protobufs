@@ -3,7 +3,7 @@ syntax = "proto3";
 package meshtastic;
 
 import "meshtastic/channel.proto";
-import "meshtastic/config.proto";
+import "meshtastic/lora_config.proto";
 
 option csharp_namespace = "Meshtastic.Protobufs";
 option go_package = "github.com/meshtastic/go/generated";
@@ -32,11 +32,11 @@ message MeshBeacon {
   /*
    * Optional region being advertised alongside offer_preset.
    */
-  Config.LoRaConfig.RegionCode offer_region = 3;
+  LoRaConfig.RegionCode offer_region = 3;
 
   /*
    * Optional modem preset being advertised.
    * Combined with offer_region, tells a client "there is a mesh on this preset/region".
    */
-  optional Config.LoRaConfig.ModemPreset offer_preset = 4;
+  optional LoRaConfig.ModemPreset offer_preset = 4;
 }
