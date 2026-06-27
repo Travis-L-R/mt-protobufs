@@ -5,6 +5,7 @@ package meshtastic;
 import "meshtastic/channel.proto";
 import "meshtastic/config.proto";
 import "meshtastic/device_ui.proto";
+import "meshtastic/lora_config.proto";
 import "meshtastic/module_config.proto";
 import "meshtastic/portnums.proto";
 import "meshtastic/telemetry.proto";

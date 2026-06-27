@@ -4,7 +4,6 @@ package meshtastic;
 
 import "meshtastic/atak.proto";
 import "meshtastic/channel.proto";
-import "meshtastic/config.proto";
 import "meshtastic/lora_config.proto";
 
 option csharp_namespace = "Meshtastic.Protobufs";
