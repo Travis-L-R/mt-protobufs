@@ -2805,7 +2805,7 @@ message LoRaPresetGroup {
   /*
    * The modem presets that are legal for every region referencing this group.
    */
-  repeated LoRaConfig.ModemPreset presets = 1;
+  repeated Config.LoRaConfig.ModemPreset presets = 1;
 
   /*
    * The firmware's default modem preset for regions in this group.
