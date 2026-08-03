@@ -22,3 +22,20 @@
 *SecurityConfig.private_key max_size:32
 *SecurityConfig.admin_key max_size:32
 *SecurityConfig.admin_key max_count:3
+
+*MeshDestination.hop_limit int_size:8
+*MeshDestination.next_hop int_size:8
+
+*DestinationsConfig.destinations max_count:8
+*DestinationsConfig.leap_channel int_size:8
+*DestinationsConfig.nodeinfo_channel int_size:8
+
+# Max of three ignored nodes for our testing
+*LoRaConfig.ignore_incoming max_count:3
+
+*LoRaConfig.tx_power int_size:8
+*LoRaConfig.bandwidth int_size:16
+*LoRaConfig.coding_rate int_size:8
+*LoRaConfig.channel_num int_size:16
+
+*LoRaConfigLite.channel_num int_size:16

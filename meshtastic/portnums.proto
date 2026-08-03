@@ -293,6 +293,11 @@ enum PortNum {
   ATAK_FORWARDER = 257;
 
   /*
+   * App for relaying PKI messages using leap nodes
+   */
+  LEAP_APP = 268;
+
+  /*
    * Currently we limit port nums to no higher than this value
    */
   MAX = 511;

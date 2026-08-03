@@ -82,6 +82,13 @@ message AdminMessage {
      * device-ui config
      */
     DEVICEUI_CONFIG = 9;
+
+
+    /*
+     * Destinations config
+     * reserving 10,11,12 in case of upstream additions
+     */
+    DESTINATIONS_CONFIG = 13;
   }
 
   /*
