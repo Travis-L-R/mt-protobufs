@@ -91,7 +91,7 @@ option swift_prefix = "";
       /*
        * Ukraine 868mhz
        */
-      UA_868 = 15;
+      UA_868 = 15 [deprecated = true]; 
 
       /*
        * Malaysia 433mhz
@@ -313,6 +313,13 @@ option swift_prefix = "";
        * Comparable link budget and data rate to LONG_MODERATE.
        */
       TINY_SLOW = 15;
+
+      /*
+       * Medium Range - Turbo
+       * This preset performs similarly to MEDIUM_FAST, but with 500kHz bandwidth.
+       * It is not legal to use in all regions due to this wider bandwidth.
+       */
+      MEDIUM_TURBO = 16;
 
       /* 
        * Signifier for the absence of a preset
