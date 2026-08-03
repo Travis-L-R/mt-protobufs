@@ -104,9 +104,14 @@
 # rather than groups*regions. See bin/regen-protos.sh output for the actual size.
 # region_groups capped at 38 = the number of RegionCode enum values, so it can
 # never overflow regardless of how many regions gain a firmware table entry.
-*LoRaRegionPresetMap.groups        max_count:8
-*LoRaRegionPresetMap.region_groups max_count:38
-*LoRaPresetGroup.presets           max_count:11
+#*LoRaRegionPresetMap.groups        max_count:8
+#*LoRaRegionPresetMap.region_groups max_count:38
+#*LoRaPresetGroup.presets           max_count:11
+#*LoRaRegionPresets.group_index     int_size:8
+# Temporarily shrinking the permitted size of these unimplemented parts that are making FromRadio_size too big in custom firmware
+*LoRaRegionPresetMap.groups        max_count:1
+*LoRaRegionPresetMap.region_groups max_count:1
+*LoRaPresetGroup.presets           max_count:1
 *LoRaRegionPresets.group_index     int_size:8
 
 *MqttClientProxyMessage.topic max_size:60
